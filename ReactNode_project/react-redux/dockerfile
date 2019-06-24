@@ -1,0 +1,26 @@
+FROM node:8.11.4-alpine
+
+# Create app directory
+
+RUN mkdir -p /usr/app/react-scripts/
+
+WORKDIR /usr/app/react-scripts/
+
+COPY package.json /usr/app/react-scripts/
+
+COPY ./ /usr/app/react-scripts/
+
+RUN apk update && \
+    apk add --update nodejs && \
+    npm install --logLevel warn
+
+WORKDIR /usr/app/react-scripts/
+
+COPY ./ /usr/app/react-scripts/
+
+EXPOSE 8080 
+
+ENTRYPOINT ["node"]
+
+CMD ["npm", "run", "react-scripts"]
+

@@ -1,0 +1,15 @@
+FROM node:8.11.4-alpine
+
+# Create app directory
+
+RUN mkdir -p /usr/app/node-express/
+WORKDIR /usr/app/node-express/
+
+COPY . /usr/app/node-express/
+
+RUN npm cache clean --force && \ 
+    npm install --logLevel warn
+
+EXPOSE 3000
+
+CMD ["npm", "start"] 

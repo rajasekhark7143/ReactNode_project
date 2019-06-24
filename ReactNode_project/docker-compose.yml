@@ -1,0 +1,33 @@
+version: "3.3"
+services:
+      client:
+        build: ./react-redux
+        environment:
+          - API_ROOT:${API_ROOT}
+        expose:
+          - ${REACT_APP_PORT}
+        ports: 
+          - ${REACT_APP_PORT}:${REACT_APP_PORT}
+        volumes: 
+          - ./react-redux/src/:/usr/app/react-scripts/src
+          - ./react-redux/public:/usr/app/react-scripts/public
+        links: 
+          - server
+        command: npm run react-scripts     
+      server : 
+        build: ./node-express
+        expose: 
+          - ${APP_SERVER_PORT}
+        environment:
+                NODE_ENV: ${NODE_ENV}
+                SECRET: ${SECRET}
+                MADE_WITH: ${MADE_WITH}
+                MONGODB_URI: ${MONGODB_URI} 
+                API_HOST: ${API_HOST}
+                APP_SERVER_PORT: ${APP_SERVER_PORT}
+        ports: 
+          - ${APP_SERVER_PORT}:${APP_SERVER_PORT}
+        volumes:
+          - ./node-express:/usr/app/node-express/   
+        command: npm run start    
+
